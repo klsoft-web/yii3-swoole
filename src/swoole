@@ -1,0 +1,55 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use App\Environment;
+use Psr\Log\LogLevel;
+use Yiisoft\ErrorHandler\ErrorHandler;
+use Yiisoft\ErrorHandler\Renderer\PlainTextRenderer;
+use Yiisoft\Log\Logger;
+use Yiisoft\Log\StreamTarget;
+use Klsoft\Yii3Swoole\SwooleApplicationRunner;
+
+$root = dirname(__DIR__, 4);
+$args = parseArgs($argv);
+
+require_once $root . '/src/bootstrap.php';
+
+$runner = new SwooleApplicationRunner(
+    rootPath: $root,
+    debug: Environment::appDebug(),
+    checkEvents: Environment::appDebug(),
+    environment: Environment::appEnv(),
+    temporaryErrorHandler: new ErrorHandler(
+        new Logger(
+            [
+                (new StreamTarget())->setLevels([
+                    LogLevel::EMERGENCY,
+                    LogLevel::ERROR,
+                    LogLevel::WARNING,
+                ]),
+            ],
+        ),
+        new PlainTextRenderer(),
+    ),
+    address: $args['address'],
+    port: (int)$args['port']
+);
+$runner->run();
+
+function parseArgs($args)
+{
+    $parsedArgs = [];
+
+    $args = array_slice($args, 1);
+    for ($i = 0; $i < count($args); $i++) {
+        switch (substr_count($args[$i], "-", 0, 2)) {
+            case 2:
+                $parsedArgs[ltrim(preg_replace("/=.*/", '', $args[$i]), '-')] = strpos($args[$i], '=') !== false ? substr($args[$i], strpos($args[$i], '=') + 1) : 1;
+                break;
+        }
+    }
+
+    return $parsedArgs;
+}

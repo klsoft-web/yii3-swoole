@@ -1,0 +1,33 @@
+{
+    "name": "klsoft/yii3-swoole",
+    "type": "library",
+    "description": "The package provides the Swoole HTTP server for the Yii 3 application",
+    "homepage": "https://github.com/klsoft-web/yii3-swoole",
+    "keywords": [
+        "swoole",
+        "yii3"
+    ],
+    "license": "MIT",
+    "require": {
+        "yiisoft/aliases": "^3.1.1",
+        "yiisoft/yii-console": "^2.4.2",
+        "yiisoft/yii-runner": "^2.2",
+        "ext-swoole": ">=6.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Klsoft\\Yii3Swoole\\": "src"
+        }
+    },
+    "extra": {
+        "config-plugin-options": {
+            "source-directory": "config"
+        },
+        "config-plugin": {
+            "params-console": "params-console.php",
+            "params-web": "params-web.php",
+            "di": "di.php",
+            "di-web": "di-web.php"
+        }
+    }
+}
