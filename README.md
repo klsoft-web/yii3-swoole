@@ -81,7 +81,7 @@ Shutdown the Swoole HTTP server:
 ./yii swoole shutdown
 ```
 
-### Configure the Swoole HTTP server.
+### Configuring the Swoole HTTP server.
 
 Add the Swoole HTTP server [settings](https://wiki.swoole.com/en/#/server/setting) to the `config/web/params.php` file and then restart the server:
 
@@ -111,7 +111,7 @@ return [
 ];
 ```
 
-### Configure the SwooleRequestHandlerInterface.
+### Configuring the SwooleRequestHandlerInterface.
 
 Configure your own version of the `SwooleRequestHandlerInterface` in the `config/web/di/application.php` file:
 
