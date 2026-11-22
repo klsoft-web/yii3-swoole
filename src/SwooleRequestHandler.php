@@ -7,7 +7,6 @@ namespace Klsoft\Yii3Swoole;
 use Klsoft\Yii3Swoole\MessageQueueInterface;
 use Klsoft\Yii3Swoole\PsrRequestConverter;
 use Klsoft\Yii3Swoole\PsrResponseConverter;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Swoole\HTTP\Request;
 use Swoole\HTTP\Response;
@@ -28,7 +27,7 @@ final readonly class SwooleRequestHandler implements SwooleRequestHandlerInterfa
         private PsrResponseConverterInterface $psrResponseConverter,
         private ResponseFactoryInterface      $responseFactory,
         private ErrorCatcher                  $errorCatcher,
-        private ContainerInterface $container
+        private StateResetter $stateResetter
     )
     {
     }
@@ -60,7 +59,7 @@ final readonly class SwooleRequestHandler implements SwooleRequestHandlerInterfa
                 $this->psrResponseConverter->emit($response, $psrResponse);
             }
             $this->application->afterEmit($psrResponse);
-            $this->container->get(StateResetter::class)->reset();
+            $this->stateResetter->reset();
         }
     }
 }

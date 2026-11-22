@@ -17,6 +17,7 @@ use Klsoft\Yii3Swoole\SwooleRequestHandler;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Yiisoft\Aliases\Aliases;
+use Yiisoft\Di\StateResetter;
 use Yiisoft\ErrorHandler\Middleware\ErrorCatcher;
 use Yiisoft\Yii\Http\Application;
 
@@ -46,7 +47,7 @@ return [
             psrResponseConverter: $container->get(PsrResponseConverterInterface::class),
             responseFactory: $container->get(ResponseFactoryInterface::class),
             errorCatcher: $container->get(ErrorCatcher::class),
-            container: $container
+            stateResetter: $container->get(StateResetter::class)
         );
     }
 ];
